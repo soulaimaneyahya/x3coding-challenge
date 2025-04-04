@@ -14,6 +14,13 @@ class ShowRestaurantApiResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'location' => $this->getLocation(),
+            'image' => $this->image_url,
+            'visitsCount' => $this->visits_count,
+        ];
     }
 }
