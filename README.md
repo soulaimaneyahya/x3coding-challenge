@@ -1,5 +1,10 @@
 # x3coding-challenge
 
+[![CI](https://github.com/soulaimaneyahya/x3coding-challenge/actions/workflows/ci.yaml/badge.svg)](https://github.com/soulaimaneyahya/x3coding-challenge/actions/workflows/ci.yaml)
+
+- [] API list nearby restaurants ordered
+- [] API show restaurant
+
 requirements
 ```sh
 php 8.3
@@ -25,4 +30,10 @@ composer install
 migrations
 ```sh
 php artisan migrate
+php artisan db:seed
+```
+
+php artisan serve
+```sh
+php artisan serve
 ```
