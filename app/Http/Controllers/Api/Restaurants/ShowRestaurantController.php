@@ -16,6 +16,10 @@ final class ShowRestaurantController extends Controller
     ) {
     }
 
+    /**
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function __invoke(int $id): JsonResponse
     {
         $restaurant = $this->showRestaurantService->execute($id);

@@ -15,6 +15,13 @@ class RestaurantService
     ) {
     }
 
+    /**
+     * @param int $page
+     * @param int $perPage
+     * @param float|null $latitude
+     * @param float|null $longitude
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
     public function getRestaurantsList(
         int $page,
         int $perPage,
@@ -24,6 +31,10 @@ class RestaurantService
         return $this->restaurantRepository->getRestaurantsList($page, $perPage, $latitude, $longitude);
     }
 
+    /**
+     * @param int $id
+     * @return \stdClass|null
+     */
     public function getRestaurantById(int $id): \stdClass|null
     {
         return $this->restaurantRepository->getRestaurantById($id);

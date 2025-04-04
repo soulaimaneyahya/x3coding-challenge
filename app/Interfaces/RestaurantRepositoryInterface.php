@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Interfaces;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 
-final class GetRestaurantsListService extends RestaurantService
+interface RestaurantRepositoryInterface
 {
     /**
      * @param int $page
@@ -15,12 +15,16 @@ final class GetRestaurantsListService extends RestaurantService
      * @param float|null $longitude
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function execute(
+    public function getRestaurantsList(
         int $page,
         int $perPage,
         ?float $latitude,
         ?float $longitude,
-    ): LengthAwarePaginator {
-        return $this->getRestaurantsList($page, $perPage, $latitude, $longitude);
-    }
+    ): LengthAwarePaginator;
+
+    /**
+     * @param int $id
+     * @return \stdClass|null
+     */
+    public function getRestaurantById(int $id): \stdClass|null;
 }

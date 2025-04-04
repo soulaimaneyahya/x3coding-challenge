@@ -18,6 +18,10 @@ final class GetRestaurantsListController extends Controller
     ) {
     }
 
+    /**
+     * @param GetRestaurantsListRequest $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function __invoke(GetRestaurantsListRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
