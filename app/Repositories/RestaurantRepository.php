@@ -4,30 +4,36 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Models\Restaurant;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Query\Builder;
+use App\DTO\PaginationDTO;
+use App\DTO\LocationDTO;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Interfaces\RestaurantRepositoryInterface;
 
 final class RestaurantRepository implements RestaurantRepositoryInterface
 {
     public function getRestaurantsList(
-        int $page,
-        int $perPage,
-        ?float $latitude,
-        ?float $longitude,
+        PaginationDTO $pagination,
+        ?LocationDTO $location,
     ): LengthAwarePaginator {
-        return $this->baseRestaurantQuery()
-            ->paginate(
-                $perPage,
-                $page,
-            );
+        $query = $this->baseRestaurantQuery();
+
+        if ($location !== null) {
+            // TODO: distance calculation
+        }
+
+        return $query->paginate(
+            perPage: $pagination->perPage,
+            page: $pagination->page,
+        );
     }
 
     public function getRestaurantById(int $id): \stdClass|null
     {
-        return $this->baseRestaurantQuery()->find($id);
+        return $this->baseRestaurantQuery()
+            ->where('id', $id)
+            ->first();
     }
 
     private function baseRestaurantQuery(): Builder

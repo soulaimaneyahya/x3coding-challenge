@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Restaurants;
 
+use App\DTO\PaginationDTO;
+use App\DTO\LocationDTO;
 use App\Models\Restaurant;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,18 +21,26 @@ final class GetRestaurantsListController extends Controller
     }
 
     /**
-     * @param GetRestaurantsListRequest $request
+     * @param  GetRestaurantsListRequest $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function __invoke(GetRestaurantsListRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
 
+        if (isset($validatedData['latitude']) && isset($validatedData['longitude'])) {
+            $location = new LocationDTO(
+                latitude: $validatedData['latitude'],
+                longitude: $validatedData['longitude'],
+            );
+        }
+
         $restaurants = $this->getRestaurantsListService->execute(
-            ((int) ($validatedData['page'] ?? 1)),
-            ((int) ($validatedData['per_page'] ?? Restaurant::PER_PAGE)),
-            $validatedData['latitude'] ?? null,
-            $validatedData['longitude'] ?? null,
+            new PaginationDTO(
+                page: (int) ($validatedData['page'] ?? 1),
+                perPage: (int) ($validatedData['per_page'] ?? Restaurant::PER_PAGE),
+            ),
+            $location ?? null,
         );
 
         return new JsonResponse([

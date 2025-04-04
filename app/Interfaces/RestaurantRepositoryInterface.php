@@ -4,26 +4,24 @@ declare(strict_types=1);
 
 namespace App\Interfaces;
 
+use App\DTO\LocationDTO;
+use App\DTO\PaginationDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface RestaurantRepositoryInterface
 {
     /**
-     * @param int $page
-     * @param int $perPage
-     * @param float|null $latitude
-     * @param float|null $longitude
+     * @param  \App\DTO\PaginationDTO $pagination
+     * @param  \App\DTO\LocationDTO|null $location
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getRestaurantsList(
-        int $page,
-        int $perPage,
-        ?float $latitude,
-        ?float $longitude,
+        PaginationDTO $pagination,
+        ?LocationDTO $location,
     ): LengthAwarePaginator;
 
     /**
-     * @param int $id
+     * @param  int $id
      * @return \stdClass|null
      */
     public function getRestaurantById(int $id): \stdClass|null;
