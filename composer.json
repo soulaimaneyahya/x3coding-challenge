@@ -6,7 +6,7 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"
     },
@@ -17,7 +17,9 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3"
+        "phpunit/phpunit": "^11.5.3",
+        "squizlabs/php_codesniffer": "4.0.x-dev",
+        "friendsofphp/php-cs-fixer": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -50,6 +52,12 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "php-cs": [
+            "./vendor/bin/phpcs --standard=PSR12 --encoding=utf-8 --extensions=php app/*"
+        ],
+        "php-cs-fixer": [
+            "./vendor/bin/php-cs-fixer fix app --allow-risky=yes"
         ]
     },
     "extra": {
