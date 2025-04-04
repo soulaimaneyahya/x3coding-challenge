@@ -22,10 +22,10 @@ final class ShowRestaurantController extends Controller
      */
     public function __invoke(int $id): JsonResponse
     {
-        $restaurant = $this->showRestaurantService->execute($id);
-
         return new JsonResponse([
-            'data' => new ShowRestaurantApiResource($restaurant),
+            'data' => new ShowRestaurantApiResource(
+                $this->showRestaurantService->execute($id),
+            ),
         ]);
     }
 }

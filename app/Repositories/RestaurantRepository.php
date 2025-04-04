@@ -55,6 +55,15 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             ->first();
     }
 
+    public function incrementRestaurantVisits(int $id): void
+    {
+        DB::statement('
+            UPDATE restaurants
+            SET visits_count = visits_count + 1
+            WHERE id = :id
+        ', ['id' => $id]);
+    }
+
     private function baseRestaurantQuery(array $columns = []): Builder
     {
         return DB::table('restaurants')->select($columns);

@@ -36,4 +36,9 @@ class RestaurantService
     {
         return $this->restaurantRepository->getRestaurantById($id);
     }
+
+    public function incrementRestaurantVisits(int $id): void
+    {
+        $this->restaurantRepository->incrementRestaurantVisits($id);
+    }
 }
