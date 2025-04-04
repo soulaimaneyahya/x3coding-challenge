@@ -17,7 +17,16 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         PaginationDTO $pagination,
         ?LocationDTO $location,
     ): LengthAwarePaginator {
-        $query = $this->baseRestaurantQuery();
+        $query = $this->baseRestaurantQuery([
+            'id',
+            'name',
+            'description',
+            'latitude',
+            'longitude',
+            'image_url',
+            'created_at',
+            'updated_at',
+        ]);
 
         if ($location !== null) {
             // TODO: distance calculation
@@ -31,14 +40,7 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
 
     public function getRestaurantById(int $id): \stdClass|null
     {
-        return $this->baseRestaurantQuery()
-            ->where('id', $id)
-            ->first();
-    }
-
-    private function baseRestaurantQuery(): Builder
-    {
-        return DB::table('restaurants')->select([
+        return $this->baseRestaurantQuery([
             'id',
             'name',
             'description',
@@ -48,6 +50,13 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             'visits_count',
             'created_at',
             'updated_at',
-        ]);
+        ])
+            ->where('id', $id)
+            ->first();
+    }
+
+    private function baseRestaurantQuery(array $columns = []): Builder
+    {
+        return DB::table('restaurants')->select($columns);
     }
 }

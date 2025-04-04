@@ -18,6 +18,8 @@ class ShowRestaurantApiResource extends RestaurantApiResource
             'location' => $this->getLocation(),
             'image' => $this->image_url,
             'visitsCount' => $this->visits_count,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }
