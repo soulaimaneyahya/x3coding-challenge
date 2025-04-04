@@ -28,12 +28,4 @@ class Restaurant extends Model
     protected $hidden = [
         'deleted_at',
     ];
-
-    public function getLocation(): array
-    {
-        return [
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
-        ];
-    }
 }

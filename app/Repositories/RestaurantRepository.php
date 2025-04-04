@@ -6,6 +6,9 @@ namespace App\Repositories;
 
 use App\Models\Restaurant;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
+use stdClass;
 
 final class RestaurantRepository
 {
@@ -32,18 +35,23 @@ final class RestaurantRepository
             );
     }
 
-    public function getRestaurantById(int $id): ?Restaurant
+    public function getRestaurantById(int $id): \stdClass|null
     {
-        return Restaurant::query()->select([
-                'id',
-                'name',
-                'description',
-                'latitude',
-                'longitude',
-                'image_url',
-                'visits_count',
-                'created_at',
-                'updated_at',
-            ])->find($id);
+        return $this->baseRestaurantQuery()->find($id);
+    }
+
+    private function baseRestaurantQuery(): Builder
+    {
+        return DB::table('restaurants')->select([
+            'id',
+            'name',
+            'description',
+            'latitude',
+            'longitude',
+            'image_url',
+            'visits_count',
+            'created_at',
+            'updated_at',
+        ]);
     }
 }

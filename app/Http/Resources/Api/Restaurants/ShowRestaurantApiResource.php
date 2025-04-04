@@ -3,13 +3,10 @@
 namespace App\Http\Resources\Api\Restaurants;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
-class ShowRestaurantApiResource extends JsonResource
+class ShowRestaurantApiResource extends RestaurantApiResource
 {
     /**
-     * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array

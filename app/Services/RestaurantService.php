@@ -24,7 +24,7 @@ class RestaurantService
         return $this->restaurantRepository->getRestaurantsList($page, $perPage, $latitude, $longitude);
     }
 
-    public function getRestaurantById(int $id): ?Restaurant
+    public function getRestaurantById(int $id): \stdClass|null
     {
         return $this->restaurantRepository->getRestaurantById($id);
     }
