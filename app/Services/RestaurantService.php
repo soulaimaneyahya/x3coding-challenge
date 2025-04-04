@@ -16,10 +16,12 @@ class RestaurantService
     }
 
     public function getRestaurantsList(
+        int $page,
+        int $perPage,
         ?float $latitude,
         ?float $longitude,
     ): LengthAwarePaginator {
-        return $this->restaurantRepository->getRestaurantsList($latitude, $longitude);
+        return $this->restaurantRepository->getRestaurantsList($page, $perPage, $latitude, $longitude);
     }
 
     public function getRestaurantById(int $id): ?Restaurant

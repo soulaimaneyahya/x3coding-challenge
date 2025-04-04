@@ -10,6 +10,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 final class RestaurantRepository
 {
     public function getRestaurantsList(
+        int $page,
+        int $perPage,
         ?float $latitude,
         ?float $longitude,
     ): LengthAwarePaginator {
@@ -24,7 +26,10 @@ final class RestaurantRepository
                 'created_at',
                 'updated_at',
             ])
-            ->paginate(Restaurant::PER_PAGE);
+            ->paginate(
+                $perPage,
+                $page,
+            );
     }
 
     public function getRestaurantById(int $id): ?Restaurant

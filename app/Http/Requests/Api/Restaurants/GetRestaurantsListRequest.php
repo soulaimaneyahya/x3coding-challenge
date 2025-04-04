@@ -22,6 +22,17 @@ class GetRestaurantsListRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'page' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'per_page' => [
+                'nullable',
+                'integer',
+                'min:5',
+                'max:50',
+            ],
             'latitude' => [
                 'nullable',
                 'numeric',

@@ -9,9 +9,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 final class GetRestaurantsListService extends RestaurantService
 {
     public function execute(
+        int $page,
+        int $perPage,
         ?float $latitude,
         ?float $longitude,
     ): LengthAwarePaginator {
-        return $this->getRestaurantsList($latitude, $longitude);
+        return $this->getRestaurantsList($page, $perPage, $latitude, $longitude);
     }
 }

@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Restaurants;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Services\ShowRestaurantService;
+use App\Http\Resources\Api\Restaurants\ShowRestaurantApiResource;
 
 final class ShowRestaurantController extends Controller
 {
@@ -19,6 +20,8 @@ final class ShowRestaurantController extends Controller
     {
         $restaurant = $this->showRestaurantService->execute($id);
 
-        return response()->json($restaurant);
+        return new JsonResponse([
+            'data' => new ShowRestaurantApiResource($restaurant),
+        ]);
     }
 }
