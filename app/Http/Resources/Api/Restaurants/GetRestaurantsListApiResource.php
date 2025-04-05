@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\Api\Restaurants;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RestaurantApiResource extends JsonResource
+final class GetRestaurantsListApiResource extends JsonResource
 {
     /**
      * @return array<string, mixed>
@@ -16,12 +18,9 @@ class RestaurantApiResource extends JsonResource
             'id' => $this->getId(),
             'name' => $this->getName(),
             'description' => $this->getDescription(),
-            'location' => $this->getLocation(),
             'image' => $this->getImageUrl(),
-            'visitsCount' => $this->when(
-                $this->getVisitsCount() !== null,
-                $this->getVisitsCount()
-            ),
+            'location' => $this->getLocation(),
+            'distance' => $this->getDistance(),
             'createdAt' => $this->getCreatedAt(),
             'updatedAt' => $this->getUpdatedAt(),
         ];

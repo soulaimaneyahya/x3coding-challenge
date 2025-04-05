@@ -30,7 +30,17 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         ]);
 
         if ($location !== null) {
-            // TODO: distance calculation
+            $query->selectRaw('
+                SQRT(
+                    POW(69.1 * (latitude - ?), 2) + 
+                    POW(69.1 * (? - longitude), 2)
+                ) AS distance
+            ', [
+                $location->getLatitude(),
+                $location->getLongitude(),
+            ])
+            ->havingRaw('distance <= ?', [$location->getRadius()])
+            ->orderByRaw('distance');
         }
 
         $paginatedData = $query->paginate(
@@ -83,6 +93,7 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             location: new LocationDTO(
                 latitude: (float) $restaurant->latitude,
                 longitude: (float) $restaurant->longitude,
+                distance: $restaurant->distance ?? null,
             ),
             createdAt: $restaurant->created_at,
             updatedAt: $restaurant->updated_at,

@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Services\GetRestaurantsListService;
 use App\Http\Requests\Api\Restaurants\GetRestaurantsListRequest;
-use App\Http\Resources\Api\Restaurants\RestaurantApiResource;
+use App\Http\Resources\Api\Restaurants\GetRestaurantsListApiResource;
 
 final class GetRestaurantsListController extends Controller
 {
@@ -30,8 +30,8 @@ final class GetRestaurantsListController extends Controller
 
         if (isset($validatedData['latitude']) && isset($validatedData['longitude'])) {
             $location = new LocationDTO(
-                latitude: $validatedData['latitude'],
-                longitude: $validatedData['longitude'],
+                latitude: (float) $validatedData['latitude'],
+                longitude: (float) $validatedData['longitude'],
             );
         }
 
@@ -44,7 +44,7 @@ final class GetRestaurantsListController extends Controller
         );
 
         return new JsonResponse([
-            'data' => RestaurantApiResource::collection($restaurants),
+            'data' => GetRestaurantsListApiResource::collection($restaurants),
             'meta' => [
                 'current_page' => $restaurants->currentPage(),
                 'last_page' => $restaurants->lastPage(),

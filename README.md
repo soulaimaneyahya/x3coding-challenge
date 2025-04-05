@@ -2,8 +2,8 @@
 
 [![CI](https://github.com/soulaimaneyahya/x3coding-challenge/actions/workflows/ci.yaml/badge.svg)](https://github.com/soulaimaneyahya/x3coding-challenge/actions/workflows/ci.yaml)
 
-- [] API list nearby restaurants ordered
-- [] API show restaurant
+- [x] API list nearby restaurants ordered
+- [x] API show restaurant
 
 requirements
 ```sh

@@ -46,16 +46,28 @@ final class RestaurantEntity
         return $this->imageUrl;
     }
 
-    public function getImageUrl(): string
+    /**
+     * we can use FileSystem service to get the image url
+     * @return string|null
+     */
+    public function getImageUrl(): ?string
     {
         return $this->getImage() !== null ? Storage::url($this->getImage()) : null;
     }
 
     public function getLocation(): array
     {
-        return [
+        return[
             'latitude' => $this->location->getLatitude(),
             'longitude' => $this->location->getLongitude(),
+        ];
+    }
+
+    public function getDistance(): array
+    {
+        return [
+            'radius' => $this->location->getRadius(),
+            'distance' => $this->location->getDistance(),
         ];
     }
 
