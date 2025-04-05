@@ -19,6 +19,7 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
     ): LengthAwarePaginator {
         $query = DB::table('restaurants')->select([
             'id',
+            'public_id',
             'name',
             'description',
             'latitude',
@@ -52,15 +53,15 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         return $paginatedData;
     }
 
-    public function getRestaurantById(int $id): RestaurantEntity|null
+    public function getRestaurantById(string $publicId): RestaurantEntity|null
     {
         // lock the row for the update // prevent race condition
         $restaurant = DB::select('
-            SELECT id, name, description, latitude, longitude, image_url, visits_count, created_at, updated_at
+            SELECT id, public_id, name, description, latitude, longitude, image_url, visits_count, created_at, updated_at
             FROM restaurants 
-            WHERE id = :id 
+            WHERE public_id = :public_id 
             FOR UPDATE
-        ', ['id' => $id]);
+        ', ['public_id' => $publicId]);
 
         if (empty($restaurant)) {
             return null;
@@ -83,6 +84,7 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
     {
         return new RestaurantEntity(
             id: $restaurant->id,
+            publicId: $restaurant->public_id,
             name: $restaurant->name,
             location: new LocationDTO(
                 latitude: (float) $restaurant->latitude,

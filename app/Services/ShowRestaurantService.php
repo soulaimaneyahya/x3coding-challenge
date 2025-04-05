@@ -13,11 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 final class ShowRestaurantService extends RestaurantService
 {
     /**
-     * @param  int $id
+     * @param  string $id
      * @return \App\Entities\RestaurantEntity
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function execute(int $id): RestaurantEntity
+    public function execute(string $id): RestaurantEntity
     {
         DB::beginTransaction();
 
@@ -31,7 +32,7 @@ final class ShowRestaurantService extends RestaurantService
                 );
             }
 
-            $isIncremented = $this->incrementRestaurantVisits($id);
+            $isIncremented = $this->incrementRestaurantVisits($restaurant->getId());
 
             if ($isIncremented === false) {
                 throw new BadRequestHttpException(

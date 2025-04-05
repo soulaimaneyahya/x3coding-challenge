@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,7 @@ class RestaurantFactory extends Factory
     public function definition(): array
     {
         return [
+            'public_id' => Str::uuid(),
             'name' => fake()->name(),
             'description' => fake()->sentence(50, true),
             'latitude' => fake()->randomFloat(8, -100, 100),

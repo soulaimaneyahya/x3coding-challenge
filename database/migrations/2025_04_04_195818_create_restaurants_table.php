@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
+            $table->uuid('public_id')->unique();
             $table->string('name', 255);
             $table->string('description', 700)->nullable();
             $table->decimal('latitude', 10, 8);

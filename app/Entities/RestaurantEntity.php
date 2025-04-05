@@ -16,6 +16,7 @@ final class RestaurantEntity
 
     public function __construct(
         private readonly int $id,
+        private readonly string $publicId,
         private readonly string $name,
         private readonly LocationDTO $location,
         private readonly string $createdAt,
@@ -29,6 +30,11 @@ final class RestaurantEntity
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getPublicId(): string
+    {
+        return $this->publicId;
     }
 
     public function getName(): string

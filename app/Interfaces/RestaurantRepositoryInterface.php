@@ -22,10 +22,10 @@ interface RestaurantRepositoryInterface
     ): LengthAwarePaginator;
 
     /**
-     * @param  int $id
+     * @param  string $publicId
      * @return \App\Entities\RestaurantEntity|null
      */
-    public function getRestaurantById(int $id): RestaurantEntity|null;
+    public function getRestaurantById(string $publicId): RestaurantEntity|null;
 
     /**
      * @param  int $id

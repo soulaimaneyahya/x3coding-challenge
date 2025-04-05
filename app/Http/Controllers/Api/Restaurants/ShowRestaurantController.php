@@ -17,10 +17,10 @@ final class ShowRestaurantController extends Controller
     }
 
     /**
-     * @param  int $id
+     * @param  string $id
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
         return new JsonResponse([
             'data' => new ShowRestaurantApiResource(

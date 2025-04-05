@@ -15,7 +15,7 @@ final class GetRestaurantsListApiResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->getId(),
+            'id' => $this->getPublicId(),
             'name' => $this->getName(),
             'description' => $this->getDescription(),
             'image' => $this->getImageUrl(),
