@@ -69,12 +69,13 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         return $this->hydrateRestaurant($restaurant[0]);
     }
 
-    public function incrementRestaurantVisits(int $id): void
+    public function incrementRestaurantVisits(int $id): bool
     {
-        DB::statement('
+        return DB::statement('
             UPDATE restaurants
             SET visits_count = visits_count + 1
             WHERE id = :id
+            LIMIT 1
         ', ['id' => $id]);
     }
 

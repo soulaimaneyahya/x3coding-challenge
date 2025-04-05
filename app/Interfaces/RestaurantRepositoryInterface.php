@@ -29,7 +29,7 @@ interface RestaurantRepositoryInterface
 
     /**
      * @param  int $id
-     * @return void
+     * @return bool
      */
-    public function incrementRestaurantVisits(int $id): void;
+    public function incrementRestaurantVisits(int $id): bool;
 }

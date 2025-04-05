@@ -40,10 +40,10 @@ class RestaurantService
 
     /**
      * @param  int $id
-     * @return void
+     * @return bool
      */
-    public function incrementRestaurantVisits(int $id): void
+    public function incrementRestaurantVisits(int $id): bool
     {
-        $this->restaurantRepository->incrementRestaurantVisits($id);
+        return $this->restaurantRepository->incrementRestaurantVisits($id);
     }
 }

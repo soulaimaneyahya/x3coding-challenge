@@ -7,6 +7,8 @@ namespace App\Services;
 use App\Entities\RestaurantEntity;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 final class ShowRestaurantService extends RestaurantService
 {
@@ -23,10 +25,20 @@ final class ShowRestaurantService extends RestaurantService
             $restaurant = $this->getRestaurantById($id);
 
             if ($restaurant === null) {
-                throw new NotFoundHttpException('Restaurant not found');
+                throw new NotFoundHttpException(
+                    message: 'Restaurant not found',
+                    code: Response::HTTP_NOT_FOUND,
+                );
             }
 
-            $this->incrementRestaurantVisits($id);
+            $isIncremented = $this->incrementRestaurantVisits($id);
+
+            if ($isIncremented === false) {
+                throw new BadRequestHttpException(
+                    message: 'Failed to increment restaurant visits',
+                    code: Response::HTTP_BAD_REQUEST,
+                );
+            }
 
             DB::commit();
 
