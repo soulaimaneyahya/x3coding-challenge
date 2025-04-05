@@ -18,9 +18,9 @@ final class RestaurantEntity
         private readonly int $id,
         private readonly string $name,
         private readonly LocationDTO $location,
-        private int $visitsCount = 0,
         private readonly string $createdAt,
         private readonly string $updatedAt,
+        private int $visitsCount = 0,
         private readonly string|null $description = null,
         private readonly string|null $imageUrl = null,
     ) {

@@ -89,9 +89,9 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
                 longitude: (float) $restaurant->longitude,
                 distance: $restaurant->distance ?? 0,
             ),
-            visitsCount: $restaurant->visits_count ?? 0,
             createdAt: $restaurant->created_at,
             updatedAt: $restaurant->updated_at,
+            visitsCount: $restaurant->visits_count ?? 0,
             description: $restaurant->description,
             imageUrl: $restaurant->image_url,
         );
