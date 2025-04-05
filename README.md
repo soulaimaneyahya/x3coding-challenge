@@ -37,3 +37,8 @@ php artisan serve
 ```sh
 php artisan serve
 ```
+
+tests
+```sh
+php artisan test
+```
