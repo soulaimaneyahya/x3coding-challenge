@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "424c165c-11d1-4fb7-93e2-8c59a782b6d8",
+		"name": "x3-coding-challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38842739",
+		"_collection_link": "https://codpartner-backend-team.postman.co/workspace/x1microservices~b658797d-a6e0-4cba-a3a2-4069a7f9a54f/collection/38842739-424c165c-11d1-4fb7-93e2-8c59a782b6d8?action=share&source=collection_link&creator=38842739"
+	},
+	"item": [
+		{
+			"name": "restaurants-list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/restaurants?page=1&per_page=12&latitude=100&longtitude=100",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"restaurants"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "per_page",
+							"value": "12"
+						},
+						{
+							"key": "latitude",
+							"value": "100"
+						},
+						{
+							"key": "longtitude",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "restaurants-show",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/restaurants/{{restaurantId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"restaurants",
+						"{{restaurantId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

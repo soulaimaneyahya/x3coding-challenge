@@ -14,11 +14,11 @@ final class LocationDTO
 
     public function getLatitude(): float
     {
-        return (float) $this->latitude;
+        return $this->latitude;
     }
 
     public function getLongitude(): float
     {
-        return (float) $this->longitude;
+        return $this->longitude;
     }
 }
