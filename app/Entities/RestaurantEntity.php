@@ -18,11 +18,11 @@ final class RestaurantEntity
         private readonly int $id,
         private readonly string $name,
         private readonly LocationDTO $location,
+        private int $visitsCount = 0,
         private readonly string $createdAt,
         private readonly string $updatedAt,
         private readonly string|null $description = null,
         private readonly string|null $imageUrl = null,
-        private readonly int|null $visitsCount = null,
     ) {
     }
 
@@ -65,15 +65,20 @@ final class RestaurantEntity
 
     public function getDistance(): array
     {
-        return [
+        return $this->location->getDistance() != 0 ? [
             'radius' => $this->location->getRadius(),
             'distance' => $this->location->getDistance(),
-        ];
+        ] : [];
     }
 
-    public function getVisitsCount(): int|null
+    public function getVisitsCount(): int
     {
         return $this->visitsCount;
+    }
+
+    public function setVisitsCount(int $visitsCount): void
+    {
+        $this->visitsCount = $visitsCount;
     }
 
     public function getCreatedAt(): Carbon

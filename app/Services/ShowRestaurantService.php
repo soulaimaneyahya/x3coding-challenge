@@ -42,6 +42,8 @@ final class ShowRestaurantService extends RestaurantService
 
             DB::commit();
 
+            $restaurant->setVisitsCount($restaurant->getVisitsCount() + 1);
+
             return $restaurant;
         } catch (\Throwable $ex) {
             DB::rollBack();

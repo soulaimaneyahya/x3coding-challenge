@@ -62,7 +62,7 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             FOR UPDATE
         ', ['id' => $id]);
 
-        if ($restaurant === null) {
+        if (empty($restaurant)) {
             return null;
         }
 
@@ -87,13 +87,13 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             location: new LocationDTO(
                 latitude: (float) $restaurant->latitude,
                 longitude: (float) $restaurant->longitude,
-                distance: $restaurant->distance ?? null,
+                distance: $restaurant->distance ?? 0,
             ),
+            visitsCount: $restaurant->visits_count ?? 0,
             createdAt: $restaurant->created_at,
             updatedAt: $restaurant->updated_at,
             description: $restaurant->description,
             imageUrl: $restaurant->image_url,
-            visitsCount: $restaurant->visits_count ?? null,
         );
     }
 }

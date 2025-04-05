@@ -42,6 +42,15 @@ return [
             'synchronous' => null,
         ],
 
+        'mysql_testing' => [
+            'driver' => 'mysql',
+            'database' => env('TESTING_DB_DATABASE', 'laravel_testing'),
+            'username' => env('TESTING_DB_USERNAME', 'root'),
+            'password' => env('TESTING_DB_PASSWORD', ''),
+            'host' => env('TESTING_DB_HOST', '127.0.0.1'),
+            'port' => env('TESTING_DB_PORT', '3306'),
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
