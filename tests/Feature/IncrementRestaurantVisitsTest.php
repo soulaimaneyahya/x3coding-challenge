@@ -6,13 +6,15 @@ use Tests\TestCase;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\ShowRestaurantService;
+use App\Models\Restaurant;
+
 final class IncrementRestaurantVisitsTest extends TestCase
 {
     use RefreshDatabase;
 
     private Client $client;
     private string $baseUrl;
-    private int $restaurantId;
+    private Restaurant $restaurant;
     private ShowRestaurantService $showRestaurantService;
 
     protected function setUp(): void
@@ -23,15 +25,21 @@ final class IncrementRestaurantVisitsTest extends TestCase
 
         $this->showRestaurantService = app(ShowRestaurantService::class);
 
-        $this->restaurantId = $this->createRestaurant();
+        $restaurant = $this->createRestaurant();
+
+        if ($restaurant === null) {
+            $this->fail('Restaurant not created');
+        }
+
+        $this->restaurant = $restaurant;
     }
 
     public function testIncrementRestaurantVisits(): void
     {
         try {
-            $restaurant = $this->showRestaurantService->execute($this->restaurantId);
+            $restaurant = $this->showRestaurantService->execute($this->restaurant->getPublicId());
 
-            $response = $this->get("{$this->baseUrl}/api/restaurants/{$this->restaurantId}");
+            $response = $this->get("{$this->baseUrl}/api/restaurants/{$this->restaurant->getPublicId()}");
 
             $this->assertEquals(200, $response->getStatusCode());
 

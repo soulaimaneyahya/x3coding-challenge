@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Entities\RestaurantEntity;
+use App\Models\Restaurant;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -14,11 +14,11 @@ final class ShowRestaurantService extends RestaurantService
 {
     /**
      * @param  string $id
-     * @return \App\Entities\RestaurantEntity
+     * @return \App\Models\Restaurant
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function execute(string $id): RestaurantEntity
+    public function execute(string $id): Restaurant
     {
         DB::beginTransaction();
 

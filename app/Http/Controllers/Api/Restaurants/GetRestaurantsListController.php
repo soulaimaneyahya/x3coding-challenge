@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Restaurants;
 
+use App\Models\Restaurant;
 use App\DTO\PaginationDTO;
 use App\DTO\LocationDTO;
-use App\Entities\RestaurantEntity;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Services\GetRestaurantsListService;
@@ -38,7 +38,7 @@ final class GetRestaurantsListController extends Controller
         $restaurants = $this->getRestaurantsListService->execute(
             new PaginationDTO(
                 page: (int) ($validatedData['page'] ?? 1),
-                perPage: (int) ($validatedData['per_page'] ?? RestaurantEntity::PER_PAGE),
+                perPage: (int) ($validatedData['per_page'] ?? Restaurant::PER_PAGE),
             ),
             $location ?? null,
         );

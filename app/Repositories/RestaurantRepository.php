@@ -6,8 +6,7 @@ namespace App\Repositories;
 
 use App\DTO\PaginationDTO;
 use App\DTO\LocationDTO;
-use App\Entities\RestaurantEntity;
-use Illuminate\Support\Facades\DB;
+use App\Models\Restaurant;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Interfaces\RestaurantRepositoryInterface;
 
@@ -17,7 +16,7 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         PaginationDTO $pagination,
         ?LocationDTO $location,
     ): LengthAwarePaginator {
-        $query = DB::table('restaurants')->select([
+        $query = Restaurant::query()->select([
             'id',
             'public_id',
             'name',
@@ -48,54 +47,52 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             page: $pagination->getPage(),
         );
 
-        $paginatedData->getCollection()->transform(fn (\stdClass $restaurant) => $this->hydrateRestaurant($restaurant));
+        $paginatedData->getCollection()->transform(fn (Restaurant $restaurant) => $this->hydrateRestaurant($restaurant));
 
         return $paginatedData;
     }
 
-    public function getRestaurantById(string $publicId): RestaurantEntity|null
+    public function getRestaurantById(string $publicId): Restaurant|null
     {
-        // lock the row for the update // prevent race condition
-        $restaurant = DB::select('
-            SELECT id, public_id, name, description, latitude, longitude, image_url, visits_count, created_at, updated_at
-            FROM restaurants 
-            WHERE public_id = :public_id 
-            FOR UPDATE
-        ', ['public_id' => $publicId]);
+        $restaurant = Restaurant::query()
+            ->where('public_id', $publicId)
+            ->select([
+                'id',
+                'public_id',
+                'name',
+                'description',
+                'latitude',
+                'longitude',
+                'image_url',
+                'visits_count',
+                'created_at',
+                'updated_at',
+            ])
+            ->first();
 
-        if (empty($restaurant)) {
+        if ($restaurant === null) {
             return null;
         }
 
-        return $this->hydrateRestaurant($restaurant[0]);
+        return $this->hydrateRestaurant($restaurant);
     }
 
     public function incrementRestaurantVisits(int $id): bool
     {
-        return DB::statement('
-            UPDATE restaurants
-            SET visits_count = visits_count + 1
-            WHERE id = :id
-            LIMIT 1
-        ', ['id' => $id]);
+        return Restaurant::query()
+            ->where('id', $id)
+            ->limit(1)
+            ->increment('visits_count', 1) > 0;
     }
 
-    private function hydrateRestaurant(\stdClass $restaurant): RestaurantEntity
+    private function hydrateRestaurant(Restaurant $restaurant): Restaurant
     {
-        return new RestaurantEntity(
-            id: $restaurant->id,
-            publicId: $restaurant->public_id,
-            name: $restaurant->name,
-            location: new LocationDTO(
+        return $restaurant->setLocation(
+            new LocationDTO(
                 latitude: (float) $restaurant->latitude,
                 longitude: (float) $restaurant->longitude,
-                distance: $restaurant->distance ?? 0,
-            ),
-            createdAt: $restaurant->created_at,
-            updatedAt: $restaurant->updated_at,
-            visitsCount: $restaurant->visits_count ?? 0,
-            description: $restaurant->description,
-            imageUrl: $restaurant->image_url,
+                distance: (float) $restaurant->distance ?? 0,
+            )
         );
     }
 }
