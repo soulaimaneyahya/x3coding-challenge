@@ -14,15 +14,15 @@ final class RestaurantEntity
     public const int PER_PAGE = 10;
 
     public function __construct(
-        public readonly int $id,
-        public readonly string $name,
-        public readonly string $description,
-        public readonly string $imageUrl,
-        public readonly float $latitude,
-        public readonly float $longitude,
-        public readonly string $createdAt,
-        public readonly string $updatedAt,
-        public readonly int|null $visitsCount = null,
+        private readonly int $id,
+        private readonly string $name,
+        private readonly float $latitude,
+        private readonly float $longitude,
+        private readonly string $createdAt,
+        private readonly string $updatedAt,
+        private readonly string|null $description = null,
+        private readonly string|null $imageUrl = null,
+        private readonly int|null $visitsCount = null,
     ) {
     }
 
@@ -36,27 +36,42 @@ final class RestaurantEntity
         return $this->name;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    public function getImage(): ?string
+    {
+        return $this->imageUrl;
+    }
+
     public function getImageUrl(): string
     {
-        return $this->imageUrl !== null ? Storage::url($this->imageUrl) : null;
+        return $this->getImage() !== null ? Storage::url($this->getImage()) : null;
+    }
+
+    public function getLatitude(): float
+    {
+        return (float) $this->latitude;
+    }
+
+    public function getLongitude(): float
+    {
+        return (float) $this->longitude;
     }
 
     public function getLocation(): array
     {
         return [
-            'latitude' => (float) $this->latitude,
-            'longitude' => (float) $this->longitude,
+            'latitude' => $this->getLatitude(),
+            'longitude' => $this->getLongitude(),
         ];
     }
 
     public function getVisitsCount(): int|null
     {
-        return $this->visitsCount ?? null;
+        return $this->visitsCount;
     }
 
     public function getCreatedAt(): Carbon

@@ -7,8 +7,8 @@ namespace App\DTO;
 final class LocationDTO
 {
     public function __construct(
-        public readonly float $latitude,
-        public readonly float $longitude,
+        private readonly float $latitude,
+        private readonly float $longitude,
     ) {
     }
 }

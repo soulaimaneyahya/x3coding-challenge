@@ -80,12 +80,12 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         return new RestaurantEntity(
             id: $restaurant->id,
             name: $restaurant->name,
-            description: $restaurant->description,
-            imageUrl: $restaurant->image_url,
             latitude: (float) $restaurant->latitude,
             longitude: (float) $restaurant->longitude,
             createdAt: $restaurant->created_at,
             updatedAt: $restaurant->updated_at,
+            description: $restaurant->description,
+            imageUrl: $restaurant->image_url,
             visitsCount: $restaurant->visits_count ?? null,
         );
     }

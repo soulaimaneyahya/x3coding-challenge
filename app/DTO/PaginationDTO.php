@@ -7,8 +7,8 @@ namespace App\DTO;
 final class PaginationDTO
 {
     public function __construct(
-        public readonly int $page,
-        public readonly int $perPage,
+        private readonly int $page,
+        private readonly int $perPage,
     ) {
     }
 }
