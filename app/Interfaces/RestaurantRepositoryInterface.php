@@ -26,4 +26,10 @@ interface RestaurantRepositoryInterface
      * @return \App\Entities\RestaurantEntity|null
      */
     public function getRestaurantById(int $id): RestaurantEntity|null;
+
+    /**
+     * @param  int $id
+     * @return void
+     */
+    public function incrementRestaurantVisits(int $id): void;
 }
