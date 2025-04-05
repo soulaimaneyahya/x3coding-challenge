@@ -27,7 +27,7 @@ final class IncrementRestaurantVisitsTest extends TestCase
 
         $restaurant = $this->createRestaurant();
 
-        if ($restaurant === null) {
+        if (!$restaurant instanceof Restaurant) {
             $this->fail('Restaurant not created');
         }
 

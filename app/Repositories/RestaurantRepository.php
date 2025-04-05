@@ -47,7 +47,9 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             page: $pagination->getPage(),
         );
 
-        $paginatedData->getCollection()->transform(fn (Restaurant $restaurant) => $this->hydrateRestaurant($restaurant));
+        $paginatedData->getCollection()->transform(fn (Restaurant $restaurant) => $this->hydrateRestaurant(
+            $restaurant,
+        ));
 
         return $paginatedData;
     }
@@ -70,7 +72,7 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             ])
             ->first();
 
-        if ($restaurant === null) {
+        if (!$restaurant instanceof Restaurant) {
             return null;
         }
 

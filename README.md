@@ -42,3 +42,8 @@ tests
 ```sh
 php artisan test
 ```
+
+queue jobs
+```sh
+php artisan queue:work
+```
