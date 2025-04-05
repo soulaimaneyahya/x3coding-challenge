@@ -34,8 +34,8 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         }
 
         $paginatedData = $query->paginate(
-            perPage: $pagination->perPage,
-            page: $pagination->page,
+            perPage: $pagination->getPerPage(),
+            page: $pagination->getPage(),
         );
 
         $paginatedData->getCollection()->transform(fn (\stdClass $restaurant) => $this->hydrateRestaurant($restaurant));
@@ -80,8 +80,10 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         return new RestaurantEntity(
             id: $restaurant->id,
             name: $restaurant->name,
-            latitude: (float) $restaurant->latitude,
-            longitude: (float) $restaurant->longitude,
+            location: new LocationDTO(
+                latitude: (float) $restaurant->latitude,
+                longitude: (float) $restaurant->longitude,
+            ),
             createdAt: $restaurant->created_at,
             updatedAt: $restaurant->updated_at,
             description: $restaurant->description,

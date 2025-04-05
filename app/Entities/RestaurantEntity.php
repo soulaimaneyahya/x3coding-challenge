@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entities;
 
 use Carbon\Carbon;
+use App\DTO\LocationDTO;
 use Illuminate\Support\Facades\Storage;
 
 final class RestaurantEntity
@@ -16,8 +17,7 @@ final class RestaurantEntity
     public function __construct(
         private readonly int $id,
         private readonly string $name,
-        private readonly float $latitude,
-        private readonly float $longitude,
+        private readonly LocationDTO $location,
         private readonly string $createdAt,
         private readonly string $updatedAt,
         private readonly string|null $description = null,
@@ -51,21 +51,11 @@ final class RestaurantEntity
         return $this->getImage() !== null ? Storage::url($this->getImage()) : null;
     }
 
-    public function getLatitude(): float
-    {
-        return (float) $this->latitude;
-    }
-
-    public function getLongitude(): float
-    {
-        return (float) $this->longitude;
-    }
-
     public function getLocation(): array
     {
         return [
-            'latitude' => $this->getLatitude(),
-            'longitude' => $this->getLongitude(),
+            'latitude' => $this->location->getLatitude(),
+            'longitude' => $this->location->getLongitude(),
         ];
     }
 

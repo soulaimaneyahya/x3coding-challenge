@@ -11,4 +11,14 @@ final class PaginationDTO
         private readonly int $perPage,
     ) {
     }
+
+    public function getPage(): int
+    {
+        return $this->page;
+    }
+
+    public function getPerPage(): int
+    {
+        return $this->perPage;
+    }
 }
