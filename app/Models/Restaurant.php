@@ -13,10 +13,6 @@ class Restaurant extends Model
     /** @use SoftDeletes */
     use SoftDeletes;
 
-    public const PER_PAGE = 10;
-
-    protected $table = 'restaurants';
-
     protected $fillable = [
         'name',
         'description',

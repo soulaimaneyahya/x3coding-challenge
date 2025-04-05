@@ -6,6 +6,7 @@ namespace App\Interfaces;
 
 use App\DTO\LocationDTO;
 use App\DTO\PaginationDTO;
+use App\Entities\RestaurantEntity;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface RestaurantRepositoryInterface
@@ -22,7 +23,7 @@ interface RestaurantRepositoryInterface
 
     /**
      * @param  int $id
-     * @return \stdClass|null
+     * @return \App\Entities\RestaurantEntity|null
      */
-    public function getRestaurantById(int $id): \stdClass|null;
+    public function getRestaurantById(int $id): RestaurantEntity|null;
 }

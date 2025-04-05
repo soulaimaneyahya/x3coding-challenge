@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\DTO\LocationDTO;
 use App\DTO\PaginationDTO;
+use App\Entities\RestaurantEntity;
 use App\Repositories\RestaurantRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -30,13 +31,17 @@ class RestaurantService
 
     /**
      * @param  int $id
-     * @return \stdClass|null
+     * @return \App\Entities\RestaurantEntity|null
      */
-    public function getRestaurantById(int $id): \stdClass|null
+    public function getRestaurantById(int $id): RestaurantEntity|null
     {
         return $this->restaurantRepository->getRestaurantById($id);
     }
 
+    /**
+     * @param  int $id
+     * @return void
+     */
     public function incrementRestaurantVisits(int $id): void
     {
         $this->restaurantRepository->incrementRestaurantVisits($id);

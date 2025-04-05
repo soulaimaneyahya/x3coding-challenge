@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\DTO\PaginationDTO;
 use App\DTO\LocationDTO;
+use App\Entities\RestaurantEntity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -32,15 +33,19 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             // TODO: distance calculation
         }
 
-        return $query->paginate(
+        $paginatedData = $query->paginate(
             perPage: $pagination->perPage,
             page: $pagination->page,
         );
+
+        $paginatedData->getCollection()->transform(fn (\stdClass $restaurant) => $this->hydrateRestaurant($restaurant));
+
+        return $paginatedData;
     }
 
-    public function getRestaurantById(int $id): \stdClass|null
+    public function getRestaurantById(int $id): RestaurantEntity|null
     {
-        return $this->baseRestaurantQuery([
+        $restaurant = $this->baseRestaurantQuery([
             'id',
             'name',
             'description',
@@ -53,6 +58,12 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         ])
             ->where('id', $id)
             ->first();
+
+        if ($restaurant === null) {
+            return null;
+        }
+
+        return $this->hydrateRestaurant($restaurant);
     }
 
     public function incrementRestaurantVisits(int $id): void
@@ -62,6 +73,21 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             SET visits_count = visits_count + 1
             WHERE id = :id
         ', ['id' => $id]);
+    }
+
+    private function hydrateRestaurant(\stdClass $restaurant): RestaurantEntity
+    {
+        return new RestaurantEntity(
+            id: $restaurant->id,
+            name: $restaurant->name,
+            description: $restaurant->description,
+            imageUrl: $restaurant->image_url,
+            latitude: (float) $restaurant->latitude,
+            longitude: (float) $restaurant->longitude,
+            createdAt: $restaurant->created_at,
+            updatedAt: $restaurant->updated_at,
+            visitsCount: $restaurant->visits_count ?? null,
+        );
     }
 
     private function baseRestaurantQuery(array $columns = []): Builder
