@@ -8,7 +8,6 @@ use App\DTO\PaginationDTO;
 use App\DTO\LocationDTO;
 use App\Entities\RestaurantEntity;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Interfaces\RestaurantRepositoryInterface;
 
@@ -18,7 +17,7 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
         PaginationDTO $pagination,
         ?LocationDTO $location,
     ): LengthAwarePaginator {
-        $query = $this->baseRestaurantQuery([
+        $query = DB::table('restaurants')->select([
             'id',
             'name',
             'description',
@@ -55,25 +54,19 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
 
     public function getRestaurantById(int $id): RestaurantEntity|null
     {
-        $restaurant = $this->baseRestaurantQuery([
-            'id',
-            'name',
-            'description',
-            'latitude',
-            'longitude',
-            'image_url',
-            'visits_count',
-            'created_at',
-            'updated_at',
-        ])
-            ->where('id', $id)
-            ->first();
+        // lock the row for the update // prevent race condition
+        $restaurant = DB::select('
+            SELECT id, name, description, latitude, longitude, image_url, visits_count, created_at, updated_at
+            FROM restaurants 
+            WHERE id = :id 
+            FOR UPDATE
+        ', ['id' => $id]);
 
         if ($restaurant === null) {
             return null;
         }
 
-        return $this->hydrateRestaurant($restaurant);
+        return $this->hydrateRestaurant($restaurant[0]);
     }
 
     public function incrementRestaurantVisits(int $id): void
@@ -101,10 +94,5 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
             imageUrl: $restaurant->image_url,
             visitsCount: $restaurant->visits_count ?? null,
         );
-    }
-
-    private function baseRestaurantQuery(array $columns = []): Builder
-    {
-        return DB::table('restaurants')->select($columns);
     }
 }
