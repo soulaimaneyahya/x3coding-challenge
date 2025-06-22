@@ -31,6 +31,7 @@ class Restaurant extends Model
     ];
 
     protected $hidden = [
+        'id',
         'deleted_at',
     ];
 

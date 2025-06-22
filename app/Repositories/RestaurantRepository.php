@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\DTO\PaginationDTO;
 use App\DTO\LocationDTO;
+use App\DTO\PaginationDTO;
 use App\Models\Restaurant;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Interfaces\RestaurantRepositoryInterface;
 
@@ -81,10 +82,26 @@ final class RestaurantRepository implements RestaurantRepositoryInterface
 
     public function incrementRestaurantVisits(int $id): bool
     {
-        return Restaurant::query()
-            ->where('id', $id)
-            ->limit(1)
-            ->increment('visits_count', 1) > 0;
+        return DB::transaction(static function () use ($id) {
+            $restaurant = DB::table('restaurants')
+                ->where('id', $id)
+                ->select([
+                    'visits_count'
+                ])
+                ->lockForUpdate()
+                ->first();
+
+            if ($restaurant === null) {
+                return false;
+            }
+
+            return DB::table('restaurants')
+                ->where('id', $id)
+                ->limit(1)
+                ->update([
+                    'visits_count' => $restaurant->visits_count + 1
+                ]) === 1;
+        });
     }
 
     private function hydrateRestaurant(Restaurant $restaurant): Restaurant
